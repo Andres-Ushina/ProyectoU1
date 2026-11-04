@@ -1,0 +1,13 @@
+@* COMENTARIO EXPLICATIVO: Tabla del reporte de las diez películas con mas alquileres. *@
+@model IReadOnlyList<ProyectoU1.Models.Pelicula>
+@{
+    ViewData["Title"] = "Películas más alquiladas";
+}
+<header class="page-heading"><div class="eyebrow"><i class="bi bi-bar-chart-line" aria-hidden="true"></i> Reportes</div><h1>Películas más alquiladas</h1><p>Las diez películas con más rentas, calculadas desde <code>film → inventory → rental</code>.</p></header>
+<div class="table-shell table-responsive"><table class="table"><thead><tr><th>#</th><th>Película</th><th>Cantidad de alquileres</th></tr></thead><tbody>
+    @* Recorre los datos preparados por el controlador para crear filas o tarjetas. *@
+@for (var i = 0; i < Model.Count; i++)
+{
+    <tr><td><span class="soft-badge">@(i + 1)</span></td><td><i class="bi bi-film text-success me-2" aria-hidden="true"></i><strong>@Model[i].Title</strong></td><td><span class="availability-badge"><i class="bi bi-ticket-perforated" aria-hidden="true"></i>@Model[i].RentalCount</span></td></tr>
+}
+</tbody></table></div>

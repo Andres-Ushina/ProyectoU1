@@ -1,0 +1,24 @@
+@* COMENTARIO EXPLICATIVO: Vista protegida para crear la primera cuenta administradora del sistema. *@
+@model ProyectoU1.Models.CrearAdministradorViewModel
+@{
+    ViewData["Title"] = "Crear administrador inicial";
+}
+<div class="row justify-content-center">
+    <div class="col-md-7 col-lg-5">
+        <div class="card shadow-sm mt-4"><div class="card-body p-4">
+            <span class="login-icon"><i class="bi bi-shield-lock" aria-hidden="true"></i></span>
+            <h1 class="h3">Configuración inicial</h1>
+            <p>Esta opción se desactiva al crear la primera cuenta. La contraseña se guarda como hash.</p>
+            <form asp-action="Setup" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                <div class="mb-3"><label asp-for="NombreUsuario" class="form-label"></label><input asp-for="NombreUsuario" class="form-control" /><span asp-validation-for="NombreUsuario" class="text-danger"></span></div>
+                <div class="mb-3"><label asp-for="Password" class="form-label"></label><input asp-for="Password" class="form-control" /><span asp-validation-for="Password" class="text-danger"></span></div>
+                <div class="mb-3"><label asp-for="ConfirmarPassword" class="form-label"></label><input asp-for="ConfirmarPassword" class="form-control" /><span asp-validation-for="ConfirmarPassword" class="text-danger"></span></div>
+                <div class="mb-3"><label asp-for="StaffId" class="form-label"></label><input asp-for="StaffId" class="form-control" /><span asp-validation-for="StaffId" class="text-danger"></span><div class="form-text">Debe corresponder a un staff_id existente en Sakila.</div></div>
+                    <button class="btn btn-primary" type="submit"><i class="bi bi-person-plus me-1" aria-hidden="true"></i>Crear administrador</button>
+            </form>
+        </div></div>
+    </div>
+</div>
+    @* Carga validaciones cliente después de los campos del formulario. *@
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

@@ -1,0 +1,43 @@
+@* COMENTARIO EXPLICATIVO: Muestra los datos de una película y habilita el alquiler si hay copias disponibles. *@
+@model ProyectoU1.Models.Pelicula
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<a asp-action="Index" class="btn btn-link px-0 mb-3"><i class="bi bi-arrow-left me-1" aria-hidden="true"></i>Volver al catálogo</a>
+<article class="card detail-card">
+    <div class="row g-4 align-items-start">
+        <div class="col-auto"><span class="detail-icon"><i class="bi bi-film" aria-hidden="true"></i></span></div>
+        <div class="col">
+            <div class="eyebrow">Detalle de película</div>
+            <h1>@Model.Title</h1>
+            <p class="text-secondary">@(Model.ReleaseYear?.ToString() ?? "Año no indicado") <span aria-hidden="true">·</span> Clasificación @Model.Rating</p>
+            <p class="lead fs-6">@Model.Description</p>
+        </div>
+    </div>
+    <div class="row g-3 my-3">
+        <div class="col-sm-4"><div class="detail-stat"><small><i class="bi bi-cash-coin me-1" aria-hidden="true"></i>Tarifa de renta</small><strong>@Model.RentalRate.ToString("C")</strong></div></div>
+        <div class="col-sm-4"><div class="detail-stat"><small><i class="bi bi-clock me-1" aria-hidden="true"></i>Duración de renta</small><strong>@Model.RentalDuration días</strong></div></div>
+        <div class="col-sm-4"><div class="detail-stat"><small><i class="bi bi-box-seam me-1" aria-hidden="true"></i>Copias disponibles</small><strong>@Model.AvailableCopies de @Model.TotalCopies</strong></div></div>
+    </div>
+
+    @* Muestra este bloque solo cuando se cumple la condicion de estado o rol. *@
+    @if (Context.Session.GetString("Rol") == "Cliente")
+    {
+        if (Model.AvailableCopies > 0)
+        {
+            <form asp-controller="Alquileres" asp-action="Alquilar" method="post">
+                <input type="hidden" name="filmId" value="@Model.FilmId" />
+                <button class="btn btn-success" type="submit"><i class="bi bi-bag-plus me-1" aria-hidden="true"></i>Alquilar película</button>
+            </form>
+        }
+        else
+        {
+            <button class="btn btn-secondary" disabled><i class="bi bi-clock-history me-1" aria-hidden="true"></i>Sin copias disponibles</button>
+        }
+    }
+    else if (Context.Session.GetString("Rol") is null)
+    {
+        <a class="btn btn-outline-primary" asp-controller="Account" asp-action="Login"><i class="bi bi-person-circle me-1" aria-hidden="true"></i>Inicia sesión para alquilar</a>
+    }
+</article>

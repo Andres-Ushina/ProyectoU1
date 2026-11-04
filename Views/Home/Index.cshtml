@@ -1,0 +1,23 @@
+@* COMENTARIO EXPLICATIVO: página inicial y accesos principales del sistema. *@
+@{
+    ViewData["Title"] = "Inicio";
+}
+
+<section class="hero-panel">
+    <div class="row align-items-center">
+        <div class="col-lg-8 hero-content">
+            <div class="eyebrow"><i class="bi bi-stars" aria-hidden="true"></i> Tu próxima película está aquí</div>
+            <h1>Buenas historias, listas para llevar.</h1>
+            <p>Explora el catálogo Sakila, consulta las copias disponibles y lleva un registro sencillo de tus alquileres.</p>
+            <a class="btn btn-light btn-lg mt-2" asp-controller="Catalogo" asp-action="Index"><i class="bi bi-collection-play me-2" aria-hidden="true"></i>Explorar catálogo</a>
+        </div>
+        <div class="col-lg-4 d-none d-lg-block">
+            <div class="hero-side-card"><i class="bi bi-film" aria-hidden="true"></i><strong class="d-block mt-2">Catálogo para descubrir</strong><small>Encuentra tu siguiente favorita entre cientos de películas.</small></div>
+        </div>
+    </div>
+</section>
+<section class="row g-3 feature-row" aria-label="Funciones del sistema">
+    <div class="col-md-4"><article class="feature-card"><i class="bi bi-search" aria-hidden="true"></i><h2>Explora</h2><p>Busca títulos y consulta detalles del catálogo.</p></article></div>
+    <div class="col-md-4"><article class="feature-card"><i class="bi bi-box-seam" aria-hidden="true"></i><h2>Disponibilidad clara</h2><p>Revisa cuántas copias están listas para alquilar.</p></article></div>
+    <div class="col-md-4"><article class="feature-card"><i class="bi bi-arrow-repeat" aria-hidden="true"></i><h2>Gestiona tus rentas</h2><p>Consulta tus alquileres y registra devoluciones.</p></article></div>
+</section>

@@ -1,0 +1,35 @@
+@* COMENTARIO EXPLICATIVO: Pantalla administrativa para crear cuentas cliente y consultar o desactivar las existentes. *@
+@model ProyectoU1.Models.CrearCuentaClienteViewModel
+@{
+    ViewData["Title"] = "Cuentas de acceso";
+}
+<header class="page-heading"><div class="eyebrow"><i class="bi bi-people" aria-hidden="true"></i> Administración</div><h1>Cuentas de acceso</h1><p>Asocia usuarios con clientes Sakila. Cada cuenta accede a sus propios alquileres.</p></header>
+<div class="card mb-4"><div class="card-body">
+    <h2 class="h5"><i class="bi bi-person-plus text-success me-2" aria-hidden="true"></i>Crear cuenta para un cliente</h2>
+    @* Muestra este bloque solo cuando se cumple la condicion de estado o rol. *@
+    @if (((IReadOnlyList<(int Id, string Nombre)>)ViewBag.ClientesDisponibles).Count == 0)
+    {
+        <p class="text-muted">No hay clientes activos sin cuenta.</p>
+    }
+    else
+    {
+        <form asp-action="CrearCliente" method="post" class="row g-3">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="col-md-4"><label asp-for="NombreUsuario" class="form-label"></label><input asp-for="NombreUsuario" class="form-control" /><span asp-validation-for="NombreUsuario" class="text-danger"></span></div>
+            <div class="col-md-4"><label asp-for="CustomerId" class="form-label"></label><select asp-for="CustomerId" class="form-select"><option value="">Seleccione un cliente</option>@foreach (var c in (IReadOnlyList<(int Id, string Nombre)>)ViewBag.ClientesDisponibles) { <option value="@c.Id">@c.Id — @c.Nombre</option> }</select><span asp-validation-for="CustomerId" class="text-danger"></span></div>
+            <div class="col-md-4"><label asp-for="Password" class="form-label">Contraseña (10 caracteres mínimo)</label><input asp-for="Password" class="form-control" /><span asp-validation-for="Password" class="text-danger"></span></div>
+            <div class="col-md-4"><label asp-for="ConfirmarPassword" class="form-label"></label><input asp-for="ConfirmarPassword" class="form-control" /><span asp-validation-for="ConfirmarPassword" class="text-danger"></span></div>
+            <div class="col-12"><button class="btn btn-primary"><i class="bi bi-person-plus me-1" aria-hidden="true"></i>Crear cuenta</button></div>
+        </form>
+    }
+</div></div>
+<h2 class="h4 mb-3">Cuentas registradas</h2>
+<div class="table-shell table-responsive"><table class="table"><thead><tr><th>Usuario</th><th>Rol</th><th>ID Sakila</th><th>Estado</th><th>Acción</th></tr></thead><tbody>
+    @* Recorre los datos preparados por el controlador para crear filas o tarjetas. *@
+@foreach (var account in (IReadOnlyList<(int Id, string Username, int? CustomerId, int? StaffId, string Role, bool Active)>)ViewBag.Cuentas)
+{
+    <tr><td><i class="bi bi-person-circle text-secondary me-2" aria-hidden="true"></i><strong>@account.Username</strong></td><td><span class="soft-badge">@account.Role</span></td><td>@(account.CustomerId?.ToString() ?? account.StaffId?.ToString())</td><td><span class="@(account.Active ? "availability-badge" : "soft-badge")">@(account.Active ? "Activa" : "Inactiva")</span></td><td>@if (account.Role == "Cliente" && account.Active) { <form asp-action="Desactivar" asp-route-id="@account.Id" method="post"><button class="btn btn-sm btn-outline-danger"><i class="bi bi-person-x me-1" aria-hidden="true"></i>Desactivar</button></form> }</td></tr>
+}
+</tbody></table></div>
+    @* Carga validaciones cliente después de los campos del formulario. *@
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

@@ -1,0 +1,22 @@
+@* COMENTARIO EXPLICATIVO: Muestra las copias de una película y permite agregar o retirar copias no alquiladas. *@
+@model ProyectoU1.Models.CopiaInventario
+@{
+    var pelicula = (ProyectoU1.Models.Pelicula)ViewBag.Pelicula;
+    ViewData["Title"] = "Inventario";
+}
+<header class="page-heading"><div class="eyebrow"><i class="bi bi-box-seam" aria-hidden="true"></i> Administración de copias</div><h1>Inventario</h1><p>Copias registradas para <strong>@pelicula.Title</strong>.</p></header>
+<form asp-action="AgregarCopia" asp-route-id="@pelicula.FilmId" method="post" class="row g-2 mb-4">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="col-auto"><label asp-for="NewStoreId" class="form-label"></label><input asp-for="NewStoreId" class="form-control" /><span asp-validation-for="NewStoreId" class="text-danger"></span></div>
+    <div class="col-auto align-self-end"><button class="btn btn-primary"><i class="bi bi-plus-lg me-1" aria-hidden="true"></i>Agregar copia</button></div>
+</form>
+<div class="table-shell table-responsive"><table class="table"><thead><tr><th>ID inventario</th><th>Tienda</th><th>Estado</th><th>Acción</th></tr></thead><tbody>
+    @* Recorre los datos preparados por el controlador para crear filas o tarjetas. *@
+@foreach (var copy in (IReadOnlyList<ProyectoU1.Models.CopiaInventario>)ViewBag.Copias)
+{
+    <tr><td><strong>#@copy.InventoryId</strong></td><td>@copy.StoreId</td><td><span class="@(copy.IsRented ? "soft-badge" : "availability-badge")"><i class="bi @(copy.IsRented ? "bi-arrow-repeat" : "bi-check-circle-fill")" aria-hidden="true"></i> @(copy.IsRented ? "Alquilada" : "Disponible")</span></td><td>@if (!copy.IsRented) { <form asp-action="DesactivarCopia" asp-route-id="@copy.InventoryId" asp-route-filmId="@pelicula.FilmId" method="post"><button class="btn btn-sm btn-outline-danger"><i class="bi bi-archive me-1" aria-hidden="true"></i>Retirar copia</button></form> }</td></tr>
+}
+</tbody></table></div>
+<a asp-action="Index" class="btn btn-outline-secondary mt-3"><i class="bi bi-arrow-left me-1" aria-hidden="true"></i>Volver a películas</a>
+    @* Carga validaciones cliente después de los campos del formulario. *@
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

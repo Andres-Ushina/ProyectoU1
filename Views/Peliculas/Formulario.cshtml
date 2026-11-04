@@ -1,0 +1,28 @@
+@* COMENTARIO EXPLICATIVO: Formulario compartido para crear o editar película; presenta errores y lista de idiomas por nombre. *@
+@model ProyectoU1.Models.Pelicula
+@{
+    var editando = Model.FilmId != 0;
+    ViewData["Title"] = editando ? "Editar película" : "Crear película";
+}
+<header class="page-heading"><div class="eyebrow"><i class="bi bi-pencil-square" aria-hidden="true"></i> Catálogo administrativo</div><h1>@ViewData["Title"]</h1><p>Completa los datos de la película. El idioma se guarda relacionado con Sakila.</p></header>
+<form asp-action="@(editando ? "Editar" : "Crear")" asp-route-id="@Model.FilmId" method="post" class="card"><div class="card-body row g-3">
+    <input asp-for="FilmId" type="hidden" />
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="col-md-8"><label asp-for="Title" class="form-label"></label><input asp-for="Title" class="form-control" /><span asp-validation-for="Title" class="text-danger"></span></div>
+    <div class="col-md-4"><label asp-for="ReleaseYear" class="form-label"></label><input asp-for="ReleaseYear" class="form-control" /><span asp-validation-for="ReleaseYear" class="text-danger"></span></div>
+    <div class="col-12"><label asp-for="Description" class="form-label"></label><textarea asp-for="Description" class="form-control" rows="3"></textarea><span asp-validation-for="Description" class="text-danger"></span></div>
+    <div class="col-md-4"><label asp-for="LanguageId" class="form-label"></label><select asp-for="LanguageId" class="form-select"><option value="">Seleccione un idioma</option>@foreach (var idioma in (IReadOnlyList<(int Id, string Nombre)>)ViewBag.Idiomas) {
+        <option value="@idioma.Id">@idioma.Nombre</option>
+    }
+</select><span asp-validation-for="LanguageId" class="text-danger"></span></div>
+<div class="col-md-4"><label asp-for="RentalDuration" class="form-label"></label><input asp-for="RentalDuration" class="form-control" /><span asp-validation-for="RentalDuration" class="text-danger"></span></div>
+<div class="col-md-4"><label asp-for="Length" class="form-label"></label><input asp-for="Length" class="form-control" /><span asp-validation-for="Length" class="text-danger"></span></div>
+<div class="col-md-4"><label asp-for="RentalRate" class="form-label"></label><input asp-for="RentalRate" class="form-control" /><span asp-validation-for="RentalRate" class="text-danger"></span></div>
+<div class="col-md-4"><label asp-for="ReplacementCost" class="form-label"></label><input asp-for="ReplacementCost" class="form-control" /><span asp-validation-for="ReplacementCost" class="text-danger"></span></div>
+<div class="col-md-4"><label asp-for="Rating" class="form-label"></label><select asp-for="Rating" class="form-select"><option>G</option><option>PG</option><option>PG-13</option><option>R</option><option>NC-17</option></select><span asp-validation-for="Rating" class="text-danger"></span></div>
+    <div class="col-12"><button class="btn btn-primary"><i class="bi bi-check2-circle me-1" aria-hidden="true"></i>Guardar película</button> <a asp-action="Index" class="btn btn-outline-secondary"><i class="bi bi-x-lg me-1" aria-hidden="true"></i>Cancelar</a></div>
+</div></form>
+    @* Carga validaciones cliente después de los campos del formulario. *@
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

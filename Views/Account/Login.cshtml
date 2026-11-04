@@ -1,0 +1,41 @@
+@* COMENTARIO EXPLICATIVO: Vista de acceso: muestra validaciones, campos de usuario y contraseña, y conserva la URL local de retorno. *@
+@model ProyectoU1.Models.LoginViewModel
+@{
+    ViewData["Title"] = "Ingresar";
+}
+
+<div class="login-wrap">
+    <section class="login-card">
+        <span class="login-icon"><i class="bi bi-person-lock" aria-hidden="true"></i></span>
+        <div class="text-center mb-4">
+            <div class="eyebrow">Bienvenido de nuevo</div>
+            <h1>Ingresa a tu cuenta</h1>
+            <p class="login-subtitle mb-0">Accede a tus películas y alquileres.</p>
+        </div>
+        <form asp-action="Login" method="post">
+            <input type="hidden" name="returnUrl" value="@ViewData["ReturnUrl"]" />
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3" role="alert"></div>
+            <div class="mb-3">
+                <label asp-for="NombreUsuario" class="form-label"><i class="bi bi-person me-1" aria-hidden="true"></i>Usuario</label>
+                <input asp-for="NombreUsuario" class="form-control" autocomplete="username" placeholder="Tu nombre de usuario" />
+                <span asp-validation-for="NombreUsuario" class="text-danger"></span>
+            </div>
+            <div class="mb-4">
+                <label asp-for="Password" class="form-label"><i class="bi bi-lock me-1" aria-hidden="true"></i>Contraseña</label>
+                <input asp-for="Password" class="form-control" autocomplete="current-password" placeholder="Tu contraseña" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg w-100"><i class="bi bi-box-arrow-in-right me-1" aria-hidden="true"></i>Ingresar</button>
+        </form>
+    @* Muestra este bloque solo cuando se cumple la condicion de estado o rol. *@
+        @if (ViewData["NeedsSetup"] is true)
+        {
+            <div class="text-center mt-4"><span class="text-secondary small">¿Primera vez configurando el sistema?</span><br /><a asp-action="Setup" class="small fw-semibold"><i class="bi bi-gear me-1" aria-hidden="true"></i>Crear administrador inicial</a></div>
+        }
+    </section>
+</div>
+
+    @* Carga validaciones cliente después de los campos del formulario. *@
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

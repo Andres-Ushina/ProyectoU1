@@ -1,0 +1,15 @@
+@* COMENTARIO EXPLICATIVO: Presenta el historial y estado de los alquileres del cliente autenticado y permite devolver los pendientes. *@
+@model IReadOnlyList<ProyectoU1.Models.Alquiler>
+@{
+    ViewData["Title"] = "Mis alquileres";
+}
+<header class="page-heading"><div class="eyebrow"><i class="bi bi-film" aria-hidden="true"></i> Tu actividad</div><h1>Mis alquileres</h1><p>Consulta tus rentas y devuelve las copias que ya terminaste de ver.</p></header>
+<div class="table-shell table-responsive"><table class="table align-middle"><thead><tr><th>Película</th><th>Fecha de alquiler</th><th>Fecha de devolución</th><th>Estado / acción</th></tr></thead><tbody>
+    @* Recorre los datos preparados por el controlador para crear filas o tarjetas. *@
+@foreach (var rental in Model)
+{
+    <tr><td><i class="bi bi-film text-success me-2" aria-hidden="true"></i><strong>@rental.Pelicula</strong></td><td>@rental.RentalDate.ToString("g")</td><td>@(rental.ReturnDate?.ToString("g") ?? "Pendiente")</td><td>@if (rental.ReturnDate is null) { <form asp-action="Devolver" asp-route-id="@rental.RentalId" method="post"><button class="btn btn-sm btn-success"><i class="bi bi-arrow-return-left me-1" aria-hidden="true"></i>Devolver</button></form> } else { <span class="soft-badge"><i class="bi bi-check2 me-1" aria-hidden="true"></i>Devuelta</span> }</td></tr>
+}
+</tbody></table></div>
+    @* Muestra este bloque solo cuando se cumple la condicion de estado o rol. *@
+@if (Model.Count == 0) { <div class="empty-state"><i class="bi bi-film" aria-hidden="true"></i><h2 class="h5">Aún no tienes alquileres</h2><p><a asp-controller="Catalogo" asp-action="Index">Explora el catálogo</a> para elegir una película.</p></div> }

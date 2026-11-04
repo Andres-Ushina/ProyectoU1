@@ -1,0 +1,13 @@
+@* COMENTARIO EXPLICATIVO: Presenta las rentas recientes para consulta del administrador. *@
+@model IReadOnlyList<ProyectoU1.Models.Alquiler>
+@{
+    ViewData["Title"] = "Alquileres realizados";
+}
+<header class="page-heading"><div class="eyebrow"><i class="bi bi-receipt" aria-hidden="true"></i> Reportes</div><h1>Alquileres recientes</h1><p>Consulta las últimas rentas registradas por los clientes.</p></header>
+<div class="table-shell table-responsive"><table class="table"><thead><tr><th>Cliente</th><th>Película</th><th>Fecha</th><th>Devolución</th></tr></thead><tbody>
+    @* Recorre los datos preparados por el controlador para crear filas o tarjetas. *@
+@foreach (var rental in Model)
+{
+    <tr><td><i class="bi bi-person text-secondary me-2" aria-hidden="true"></i>@rental.Cliente</td><td><i class="bi bi-film text-success me-2" aria-hidden="true"></i>@rental.Pelicula</td><td>@rental.RentalDate.ToString("g")</td><td>@(rental.ReturnDate?.ToString("g") ?? "Pendiente")</td></tr>
+}
+</tbody></table></div>

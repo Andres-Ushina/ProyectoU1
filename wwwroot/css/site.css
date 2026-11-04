@@ -1,0 +1,253 @@
+/* COMENTARIO EXPLICATIVO: Estilos propios para la identidad visual, componentes de catálogo y adaptacion a pantallas pequenas. */
+/* Base del documento: altura minima, escala tipografica y desplazamiento. */
+html {
+  min-height: 100%;
+  font-size: 15px;
+  scroll-behavior: smooth;
+}
+
+/* Paleta y tokens compartidos para mantener consistencia visual. */
+:root {
+  --app-ink: #172b2b;
+  --app-muted: #6b7c7b;
+  --app-primary: #176b5b;
+  --app-primary-dark: #105344;
+  --app-accent: #d18a48;
+  --app-canvas: #f4f7f6;
+  --app-border: #e5ece9;
+}
+
+/* Fondo, tipografia y distribucion vertical general. */
+body {
+  min-height: 100vh;
+  margin: 0;
+  color: var(--app-ink);
+  background: var(--app-canvas);
+  font-family: Inter, "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+a { color: var(--app-primary); }
+a:hover { color: var(--app-primary-dark); }
+
+/* Barra fija superior, marca y enlaces de navegación. */
+.app-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1020;
+  min-height: 76px;
+  background: rgba(255, 255, 255, .94);
+  border-bottom: 1px solid var(--app-border);
+  box-shadow: 0 4px 22px rgba(24, 52, 46, .045);
+  backdrop-filter: blur(14px);
+}
+
+.app-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: .65rem;
+  color: var(--app-ink);
+  font-size: 1.2rem;
+  font-weight: 750;
+  letter-spacing: -.04em;
+}
+.app-brand:hover { color: var(--app-ink); }
+.brand-mark {
+  display: grid;
+  width: 39px;
+  height: 39px;
+  place-items: center;
+  color: #fff;
+  background: var(--app-primary);
+  border-radius: 13px;
+  box-shadow: 0 6px 14px rgba(23, 107, 91, .2);
+}
+.brand-mark .bi { font-size: 1.15rem; }
+.brand-accent { color: var(--app-primary); }
+
+.app-nav { gap: .2rem; }
+.app-nav .nav-link {
+  padding: .65rem .8rem !important;
+  color: #526361;
+  font-size: .92rem;
+  font-weight: 600;
+  border-radius: 10px;
+  transition: color .18s ease, background-color .18s ease;
+}
+.app-nav .nav-link .bi { margin-right: .25rem; color: #738481; }
+.app-nav .nav-link:hover, .app-nav .nav-link:focus {
+  color: var(--app-primary-dark);
+  background: #eef6f3;
+}
+.app-nav .nav-link:hover .bi { color: var(--app-primary); }
+
+.nav-user { display: flex; align-items: center; gap: .6rem; margin-left: 1rem; }
+.user-avatar {
+  display: grid;
+  width: 37px;
+  height: 37px;
+  place-items: center;
+  color: var(--app-primary);
+  background: #e8f3ef;
+  border-radius: 50%;
+}
+.user-meta { display: grid; line-height: 1.15; }
+.user-meta strong { max-width: 140px; overflow: hidden; font-size: .82rem; text-overflow: ellipsis; }
+.user-meta small { margin-top: .2rem; color: var(--app-muted); font-size: .72rem; }
+
+/* Contenedor central y pie que ocupa el espacio restante. */
+.app-content { flex: 1; padding-top: 2.2rem; padding-bottom: 2rem; }
+.app-footer {
+  padding: 1.15rem 0;
+  color: #758481;
+  background: #fff;
+  border-top: 1px solid var(--app-border);
+  font-size: .82rem;
+}
+
+/* Jerarquia de titulos, botones y campos de formulario. */
+h1, h2, h3, h4 { color: var(--app-ink); font-weight: 720; letter-spacing: -.035em; }
+h1 { margin-bottom: .65rem; font-size: clamp(1.8rem, 3vw, 2.5rem); }
+.page-heading { margin-bottom: 1.5rem; }
+.page-heading p { max-width: 720px; color: var(--app-muted); }
+.eyebrow {
+  margin-bottom: .65rem;
+  color: var(--app-primary);
+  font-size: .76rem;
+  font-weight: 750;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.btn { border-radius: 10px; font-weight: 650; }
+.btn-primary { --bs-btn-bg: var(--app-primary); --bs-btn-border-color: var(--app-primary); --bs-btn-hover-bg: var(--app-primary-dark); --bs-btn-hover-border-color: var(--app-primary-dark); --bs-btn-active-bg: var(--app-primary-dark); }
+.btn-success { --bs-btn-bg: #28795f; --bs-btn-border-color: #28795f; }
+.btn-outline-primary { --bs-btn-color: var(--app-primary); --bs-btn-border-color: #b8d3ca; --bs-btn-hover-bg: var(--app-primary); --bs-btn-hover-border-color: var(--app-primary); }
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-select:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 .22rem rgba(23, 107, 91, .16);
+  border-color: #73ab9c;
+}
+
+.form-control, .form-select { min-height: 44px; border-color: #dce6e2; border-radius: 10px; }
+.form-label { margin-bottom: .4rem; color: #354b47; font-size: .9rem; font-weight: 650; }
+.form-text { color: var(--app-muted); }
+.input-group .form-control { border-radius: 10px 0 0 10px; }
+.input-group .btn { border-radius: 0 10px 10px 0; }
+
+/* Tarjetas, catálogo, indicadores de disponibilidad y tablas. */
+.card {
+  overflow: hidden;
+  border: 1px solid var(--app-border);
+  border-radius: 17px;
+  box-shadow: 0 8px 26px rgba(27, 54, 48, .055) !important;
+}
+.card-body { padding: 1.35rem; }
+.card-title { font-weight: 700; }
+.movie-card { height: 100%; transition: transform .18s ease, box-shadow .18s ease; }
+.movie-card:hover { transform: translateY(-3px); box-shadow: 0 14px 32px rgba(27, 54, 48, .1) !important; }
+.movie-card .card-body { display: flex; flex-direction: column; }
+.movie-card .movie-description { flex: 1; color: #667774; }
+.movie-poster-icon {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  color: var(--app-primary);
+  background: #eaf4f0;
+  border-radius: 14px;
+  font-size: 1.35rem;
+}
+.movie-meta { color: var(--app-muted); font-size: .87rem; }
+.availability-badge { display: inline-flex; align-items: center; gap: .35rem; padding: .4rem .65rem; color: #176148; background: #e7f5ec; border-radius: 999px; font-size: .8rem; font-weight: 700; }
+.availability-badge.is-empty { color: #8a5b28; background: #fff3df; }
+.soft-badge { padding: .4rem .65rem; color: #4e625e; background: #edf1ef; border-radius: 999px; font-size: .78rem; font-weight: 700; }
+
+.catalog-search { max-width: 680px; margin-bottom: 1.6rem; padding: .45rem; background: #fff; border: 1px solid var(--app-border); border-radius: 14px; box-shadow: 0 6px 20px rgba(27, 54, 48, .04); }
+.catalog-search .form-control { border: 0; box-shadow: none; }
+.catalog-search .btn { margin-left: .35rem; }
+
+/* Seccion de bienvenida y tarjetas de caracteristicas. */
+.hero-panel {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(2rem, 6vw, 4.5rem);
+  color: #fff;
+  background: linear-gradient(125deg, #123d37 0%, #176b5b 56%, #28795f 100%);
+  border-radius: 26px;
+  box-shadow: 0 20px 55px rgba(16, 83, 68, .2);
+}
+.hero-panel::after {
+  position: absolute;
+  top: -100px;
+  right: -60px;
+  width: 380px;
+  height: 380px;
+  border: 1px solid rgba(255,255,255,.13);
+  border-radius: 50%;
+  box-shadow: 0 0 0 45px rgba(255,255,255,.035), 0 0 0 95px rgba(255,255,255,.025);
+  content: "";
+}
+.hero-content { position: relative; z-index: 1; max-width: 650px; }
+.hero-panel h1 { max-width: 600px; color: #fff; font-size: clamp(2.3rem, 5.5vw, 4.2rem); line-height: 1.05; }
+.hero-panel p { max-width: 570px; color: rgba(255,255,255,.78); font-size: 1.08rem; }
+.hero-panel .eyebrow { color: #b7e0d0; }
+.hero-panel .btn-light { color: var(--app-primary-dark); }
+.hero-side-card { position: relative; z-index: 1; max-width: 255px; margin: 2rem 0 0 auto; padding: 1.3rem; color: #fff; background: rgba(255,255,255,.11); border: 1px solid rgba(255,255,255,.2); border-radius: 18px; backdrop-filter: blur(8px); }
+.hero-side-card .bi { color: #f1bd83; font-size: 1.5rem; }
+.hero-side-card small { display: block; margin-top: .55rem; color: rgba(255,255,255,.72); }
+.feature-row { margin-top: 1.25rem; }
+.feature-card { height: 100%; padding: 1.2rem; background: #fff; border: 1px solid var(--app-border); border-radius: 16px; }
+.feature-card .bi { color: var(--app-primary); font-size: 1.2rem; }
+.feature-card h2 { margin-top: .75rem; font-size: 1rem; }
+.feature-card p { margin-bottom: 0; color: var(--app-muted); font-size: .88rem; }
+
+/* Presentacion del detalle de una película. */
+.detail-card { padding: clamp(1.25rem, 4vw, 2.5rem); }
+.detail-icon { display: grid; width: 68px; height: 68px; place-items: center; color: #176b5b; background: #eaf4f0; border-radius: 20px; font-size: 1.8rem; }
+.detail-stat { height: 100%; padding: 1rem; background: #f7faf8; border: 1px solid var(--app-border); border-radius: 13px; }
+.detail-stat small { display: block; margin-bottom: .3rem; color: var(--app-muted); }
+.detail-stat strong { font-size: 1.05rem; }
+
+.table-shell { overflow: hidden; background: #fff; border: 1px solid var(--app-border); border-radius: 16px; box-shadow: 0 8px 26px rgba(27, 54, 48, .045); }
+.table { margin-bottom: 0; --bs-table-bg: transparent; }
+.table thead th { padding: .9rem 1rem; color: #697a77; background: #f7faf8; border-bottom-color: var(--app-border); font-size: .76rem; font-weight: 750; letter-spacing: .06em; text-transform: uppercase; white-space: nowrap; }
+.table tbody td { padding: .9rem 1rem; border-bottom-color: #edf1ef; vertical-align: middle; }
+.table tbody tr:last-child td { border-bottom: 0; }
+.table tbody tr:hover { --bs-table-bg: #fbfdfc; }
+.table .btn { margin: .12rem; }
+.action-group { display: flex; flex-wrap: wrap; gap: .35rem; }
+
+/* Composicion visual de la pantalla de acceso. */
+.login-wrap { min-height: calc(100vh - 220px); display: grid; place-items: center; }
+.login-card { width: min(100%, 460px); padding: clamp(1.4rem, 4vw, 2.3rem); background: #fff; border: 1px solid var(--app-border); border-radius: 22px; box-shadow: 0 18px 55px rgba(27, 54, 48, .1); }
+.login-icon { display: grid; width: 58px; height: 58px; margin: 0 auto 1rem; place-items: center; color: #fff; background: var(--app-primary); border-radius: 18px; font-size: 1.45rem; }
+.login-card h1 { font-size: 1.65rem; }
+.login-card .form-control { min-height: 48px; }
+.login-subtitle { color: var(--app-muted); }
+
+/* Mensajes, validaciones y estado vacio. */
+.alert { border: 0; border-radius: 13px; box-shadow: 0 5px 16px rgba(27,54,48,.04); }
+.alert .bi { margin-right: .35rem; }
+.validation-summary-errors { padding: .8rem 1rem; background: #fff0ef; border-radius: 10px; }
+.validation-summary-errors ul { margin: 0; padding-left: 1rem; }
+.text-danger { font-size: .86rem; }
+.empty-state { padding: 3rem 1rem; color: var(--app-muted); text-align: center; }
+.empty-state .bi { display: block; margin-bottom: .8rem; color: #a2b4af; font-size: 2.2rem; }
+
+/* Ajustes para pantallas medianas y grandes. */
+@media (min-width: 768px) {
+  html { font-size: 16px; }
+}
+/* navegación colapsada para tabletas y moviles. */
+@media (max-width: 991.98px) {
+  .app-navbar { min-height: 66px; }
+  .app-navbar .navbar-collapse { padding: .6rem 0 1rem; }
+  .app-nav { align-items: stretch; }
+  .app-nav .nav-link { padding: .7rem .8rem !important; }
+  .nav-user { margin: 1rem 0 0; }
+}
+/* Respeta la preferencia de accesibilidad de reducir animaciones. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+}

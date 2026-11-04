@@ -1,0 +1,56 @@
+@* COMENTARIO EXPLICATIVO: Recorre el catálogo recibido del controlador y presenta busqueda, disponibilidad y acceso al detalle. *@
+@model IReadOnlyList<ProyectoU1.Models.Pelicula>
+@{
+    ViewData["Title"] = "Catálogo";
+}
+
+<header class="page-heading">
+    <div class="eyebrow"><i class="bi bi-collection-play" aria-hidden="true"></i> Biblioteca Sakila</div>
+    <h1>Catálogo de películas</h1>
+    <p>Encuentra tu siguiente película y consulta las copias que están disponibles ahora.</p>
+</header>
+
+<form method="get" class="catalog-search d-flex align-items-center">
+    <i class="bi bi-search ms-3 text-secondary" aria-hidden="true"></i>
+    <input name="q" value="@Context.Request.Query["q"]" class="form-control" placeholder="Buscar una película por título" aria-label="Buscar película" />
+    <button class="btn btn-primary" type="submit">Buscar</button>
+    @* Muestra este bloque solo cuando se cumple la condicion de estado o rol. *@
+    @if (Context.Request.Query.ContainsKey("q"))
+    {
+        <a class="btn btn-light ms-2" asp-action="Index" aria-label="Limpiar búsqueda"><i class="bi bi-x-lg" aria-hidden="true"></i></a>
+    }
+</form>
+
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
+    @* Recorre los datos preparados por el controlador para crear filas o tarjetas. *@
+@foreach (var film in Model)
+{
+    <div class="col">
+        <article class="card movie-card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <span class="movie-poster-icon"><i class="bi bi-film" aria-hidden="true"></i></span>
+                    <span class="soft-badge">@film.Rating</span>
+                </div>
+                <h2 class="h5 card-title">@film.Title</h2>
+                <p class="movie-meta">@(film.ReleaseYear?.ToString() ?? "Año no indicado") <span aria-hidden="true">·</span> @film.RentalDuration días de renta</p>
+                <p class="movie-description">@(string.IsNullOrWhiteSpace(film.Description) ? "Sin descripción disponible." : film.Description)</p>
+                <div class="d-flex justify-content-between align-items-center mt-2 mb-3">
+                    <span class="availability-badge @(film.AvailableCopies == 0 ? "is-empty" : "")">
+                        <i class="bi @(film.AvailableCopies == 0 ? "bi-clock-history" : "bi-check-circle-fill")" aria-hidden="true"></i>
+                        @film.AvailableCopies disponibles
+                    </span>
+                    <span class="text-secondary small">@film.TotalCopies copias</span>
+                </div>
+                <a class="btn btn-outline-primary w-100" asp-action="Detalle" asp-route-id="@film.FilmId">Ver película <i class="bi bi-arrow-right ms-1" aria-hidden="true"></i></a>
+            </div>
+        </article>
+    </div>
+}
+</div>
+
+    @* Muestra este bloque solo cuando se cumple la condicion de estado o rol. *@
+@if (Model.Count == 0)
+{
+    <div class="empty-state"><i class="bi bi-film" aria-hidden="true"></i><h2 class="h5">No encontramos películas</h2><p>Prueba con otro título o limpia la búsqueda.</p></div>
+}
